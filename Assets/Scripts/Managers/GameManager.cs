@@ -2,7 +2,7 @@ using Unity;
 using UnityEngine;
 using System;
 
-public class GameManager 
+public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
