@@ -13,7 +13,8 @@ public abstract class Boss : Enemy
 
     protected virtual void BossSpawn()
     {
-        SmartCamera.Instance.ChangeSize(40, 10);
+        StartCoroutine(SmartCamera.Instance.ChangeSize(40, 10));
+        StartCoroutine(UIManager.Instance.InitBossBar());
     }
 
     protected override void FixedUpdate()

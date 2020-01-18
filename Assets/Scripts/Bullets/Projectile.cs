@@ -22,7 +22,8 @@ public abstract class Projectile : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        StartCoroutine(Hit());
+        if (collision.gameObject.tag != "Player")
+            StartCoroutine(Hit());
         Debug.Log("emeny bullet collision");
     }
 

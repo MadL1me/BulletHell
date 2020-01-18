@@ -62,6 +62,8 @@ public class Player : MonoBehaviour
     [SerializeField] private bool isDashing = false;
     [SerializeField] private bool isInvisible = false;
     [SerializeField] private bool isReloading = false;
+    private bool isTimeout = false;
+
     private void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
@@ -116,14 +118,28 @@ public class Player : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
                 StartCoroutine(Shoot());
          
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) && !isTimeout)
                 StartCoroutine(Dash());
      
             if (Input.GetKeyDown(KeyCode.R) && !isReloading)
                 StartCoroutine(Reload());
             if (Input.GetKeyDown(KeyCode.B))
                 StartCoroutine(SmartCamera.Instance.ChangeSize(40, 10));
+
+            if (Input.GetKeyDown(KeyCode.H))
+                PerfomanceTest();
+
         }
+    }
+
+    private void PerfomanceTest()
+    {
+        List<GameObject> obj = new List<GameObject>();
+        for (int i = 0; i<100000; i++)
+        {
+            Instantiate(simpleBltPrefab);
+        }
+       // Instantiate<List<GameObject>>(obj);
     }
 
     private void AddBullet(BulletTypes bulletTypes)
@@ -155,7 +171,7 @@ public class Player : MonoBehaviour
 
     private IEnumerator Dash() 
     {
-        Physics2D.IgnoreLayerCollision(8, 10, true);
+        Physics2D.IgnoreLayerCollision(13, 10, true);
        
         isDashing = true;
         _spriteRenderer.color = Color.blue;
@@ -166,10 +182,14 @@ public class Player : MonoBehaviour
             transform.position += new Vector3(directionVector.x, directionVector.y); ;
             yield return new WaitForFixedUpdate();
         }
+
         _spriteRenderer.color = Color.white;
         isDashing = false;
 
-        Physics2D.IgnoreLayerCollision(8, 10, false);
+        Physics2D.IgnoreLayerCollision(13, 10, false);
+        isTimeout = true;
+        yield return new WaitForSecondsRealtime(_dashTimeout);
+        isTimeout = false;
     }
 
     private IEnumerator UseActiveItem() 
@@ -191,6 +211,7 @@ public class Player : MonoBehaviour
         var obj = Instantiate(simpleBltPrefab);
         obj.transform.position = transform.position + mousePos.normalized/2;
         obj.GetComponent<Bullet>().MoveDirection = mousePos.normalized;
+        StartCoroutine(UIManager.Instance.RotateRevolverRoll());
         yield break;
     }
     
@@ -199,7 +220,9 @@ public class Player : MonoBehaviour
         Debug.Log("Reloading starter");
         isReloading = true;
         _bulletElements.Clear();
-        foreach (Image renderer in UIManager.Instance.bulletPlaces)
+        bulletsInRound.Clear();
+        StartCoroutine(UIManager.Instance.RotateRevolverRoll(true));
+        foreach (Image renderer in UIManager.Instance.bulletsPlaces)
             renderer.color = Color.black;
 
         yield return new WaitForFixedUpdate();

@@ -18,12 +18,16 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected float _healthAmmount = 100;
     protected float movingSpeed => _movingSpeed;
     [SerializeField] protected float _movingSpeed = 200;
+    [SerializeField] protected string Name = "name";
+    [SerializeField] protected float AttackTimeout = 1f;
 
     protected SpriteRenderer spriteRenderer;
+    protected bool isAttacking = false;
 
     protected abstract void Attack();
     protected abstract void AIDecision();
     protected abstract void Move();
+
 
     protected virtual void Awake()
     {

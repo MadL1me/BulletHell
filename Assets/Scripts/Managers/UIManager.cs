@@ -11,9 +11,15 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
 
     [SerializeField] public Image[] playerHP;
-    [SerializeField] public Image[] bulletPlaces;
-    [SerializeField] public Image roulette;
-    [SerializeField] private Image[] bulletsPlaces;
+    [SerializeField] public GameObject roulette;
+    [SerializeField] public Image[] bulletsPlaces;
+
+    [SerializeField] private Sprite stdBullet;
+    [SerializeField] private Sprite hellBullet;
+    [SerializeField] private Sprite silverBullet;
+    [SerializeField] private Sprite recoshetBullet;
+
+    public float rotatingSpeed = 1; 
 
     public void Awake()
     {
@@ -22,6 +28,24 @@ public class UIManager : MonoBehaviour
 
     }
 
+    public IEnumerator InitBossBar()
+    {
+        yield return new WaitForFixedUpdate();
+    }
+
+    public IEnumerator RotateRevolverRoll(bool toDefaultRotation = false)
+    {
+        var delta = 72 / (100 / rotatingSpeed);
+        if (toDefaultRotation)
+            delta = roulette.GetComponent<RectTransform>().rotation.eulerAngles.z / (100 / rotatingSpeed);
+
+
+        for (float i = 0; i<100; i+=rotatingSpeed)
+        {
+            roulette.gameObject.transform.Rotate(new Vector3(0,0,-delta));
+            yield return new WaitForFixedUpdate();
+        }
+    }
 
     public void AddBullet(BulletTypes bulletTypes, List<BulletTypes> types)
     {
@@ -34,6 +58,7 @@ public class UIManager : MonoBehaviour
             col = Color.green;
         if (bulletTypes == BulletTypes.Hellfire)
             col = Color.red;
+        StartCoroutine(RotateRevolverRoll());
         bulletsPlaces[types.Count - 1].color = col;
     }
 
