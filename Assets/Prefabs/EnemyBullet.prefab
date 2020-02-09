@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1789241900280050875}
   - component: {fileID: 1789241900280050874}
   - component: {fileID: -1199501565591058585}
-  m_Layer: 8
+  m_Layer: 13
   m_Name: EnemyBullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -27,8 +27,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1789241900280050873}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.876, y: 0.407, z: 0}
-  m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
+  m_LocalPosition: {x: 0.9062, y: 0.3955, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 1.3339908}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -47,6 +47,8 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -70,9 +72,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 4d4682b1d5c71d34895ba598f6b30688, type: 3}
-  m_Color: {r: 1, g: 0, b: 0.088439465, a: 1}
+  m_SortingOrder: 200
+  m_Sprite: {fileID: 21300000, guid: 84dfd72bd7282134e84c9ccb51c3f234, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -95,9 +97,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.0050516175, y: 0.005061537}
   serializedVersion: 2
-  m_Radius: 2.52
+  m_Radius: 0.06505273
 --- !u!114 &-1199501565591058585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,8 +109,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1789241900280050873}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 629d6cdb404ad3d40b9687963f2ff890, type: 3}
+  m_Script: {fileID: 11500000, guid: 47883830ecd3f1a40986d14a9abc3123, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 0
-  _damage: 0
+  _speed: 2
+  _damage: 10
+  MoveDirection: {x: 0, y: 0}

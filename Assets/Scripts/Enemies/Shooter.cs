@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections;
 
 
 public class Shooter : Enemy
@@ -12,7 +13,7 @@ public class Shooter : Enemy
     protected override void AIDecision()
     {
         Attack();
-        Move();
+        Move() ;
     }
 
     protected override void Attack()
@@ -22,7 +23,6 @@ public class Shooter : Enemy
 
     protected override void Move()
     {
-        
     }
 }
 

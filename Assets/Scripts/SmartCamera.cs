@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.U2D;
+using UnityEngine.Experimental.Rendering.Universal;
 
 public class SmartCamera : MonoBehaviour
 {
@@ -18,7 +18,8 @@ public class SmartCamera : MonoBehaviour
 
     private void Update()
     {
-        GetPosition();
+        if(!GameManager.isPause)
+            GetPosition();
     }
 
     private void GetPosition()
@@ -27,12 +28,36 @@ public class SmartCamera : MonoBehaviour
         var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         var pos = new Vector3();
         pos.x = (Player.Instance.transform.position.x + a*mousePos.x) / (1 + a);
-        a += 0.05f;
+        a += 0.2f;
         pos.y = (Player.Instance.transform.position.y + a * mousePos.y) / (1 + a);
         pos.z = -10;
         var pos2 = pos - transform.position;
-        transform.position += pos2/20;
+        transform.position += pos2/2;
     }
+
+
+    public void CameraShake()
+    {
+        StartCoroutine(ShakeCamera());
+    }
+
+    private IEnumerator ShakeCamera()
+    {
+        var xRange = 6f;
+        var yRange = 6f;
+
+        int ShakingTimes = 10;
+        
+        for (int i = 0; i<ShakingTimes; i++)
+        {
+            transform.position += new Vector3(UnityEngine.Random.Range(-xRange, +xRange)*0.01f,
+                UnityEngine.Random.Range(-yRange, +yRange)*0.01f, 0);
+
+            yield return new WaitForFixedUpdate();
+        }
+
+    }
+
 
     private IEnumerator MoveCamera(int value, int speed)
     {

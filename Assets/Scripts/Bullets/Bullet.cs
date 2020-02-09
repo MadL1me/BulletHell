@@ -3,10 +3,10 @@ using UnityEngine;
 using System;
 using System.Collections;
 
-public class Bullet : Projectile 
+public class Bullet : Projectile  
 {
     public Vector2 MoveDirection;
-
+    protected Collider2D[] colliders;
     public void CreateBulletEffect() 
     {
 
@@ -15,7 +15,7 @@ public class Bullet : Projectile
 
     public Bullet()
     {
-
+        
     }
 
     public Bullet(float speed, float damage, Color color)
@@ -25,16 +25,32 @@ public class Bullet : Projectile
         bulletColor = color;
     }
 
-    private void Update()
+    protected override void Awake()
+    {
+        colliders = GetComponents<Collider2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    public void Create(BulletElement blt)
+    {
+        this.Damage = blt.Damage;
+        this.Speed = blt.Speed;
+        bulletColor = blt.bulletColor;
+    }
+
+    private void Start()
+    {
+        spriteRenderer.color = bulletColor;
+    }
+
+    protected virtual void FixedUpdate()
     {
         transform.position += new Vector3(MoveDirection.x, MoveDirection.y) * _speed * Time.fixedDeltaTime;
     }
 
-
     public override IEnumerator Hit()
     {
         yield return new WaitForFixedUpdate();
-        Debug.Log("PlayerBullet collision detected!");
         Destroy(gameObject);
     }
 

@@ -13,18 +13,18 @@ public abstract class Projectile : MonoBehaviour
     
     protected SpriteRenderer spriteRenderer;
     protected abstract Vector2 GetTrajectory(float delta);
-    protected Color bulletColor;
+    protected Color bulletColor = Color.white;
 
     protected virtual void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag != "Player")
             StartCoroutine(Hit());
-        Debug.Log("emeny bullet collision");
+        //Debug.Log("emeny bullet collision");
     }
 
     public virtual IEnumerator Hit()

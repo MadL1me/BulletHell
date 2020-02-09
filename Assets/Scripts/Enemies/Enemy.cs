@@ -1,11 +1,9 @@
-using Unity;
-using UnityEngine;
-using System;
 using System.Collections;
+using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour
 {
-    protected float healthAmmount
+    protected virtual float healthAmmount
     {
         get => _healthAmmount;
         set
@@ -18,11 +16,12 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected float _healthAmmount = 100;
     protected float movingSpeed => _movingSpeed;
     [SerializeField] protected float _movingSpeed = 200;
-    [SerializeField] protected string Name = "name";
-    [SerializeField] protected float AttackTimeout = 1f;
+    [SerializeField] protected string _name = "name";
+    [SerializeField] protected float _attackTimeout = 1f;
 
-    protected SpriteRenderer spriteRenderer;
-    protected bool isAttacking = false;
+    protected SpriteRenderer _spriteRenderer;
+    protected bool _isAttacking = false;
+    [SerializeField] protected bool isMoving = false;
 
     protected abstract void Attack();
     protected abstract void AIDecision();
@@ -31,7 +30,7 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void Awake()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     protected virtual void FixedUpdate()
@@ -51,9 +50,9 @@ public abstract class Enemy : MonoBehaviour
     {
         var Bullet = obj.GetComponent<Projectile>();
         healthAmmount -= Bullet.Damage;
-        spriteRenderer.color = Color.red;
+        _spriteRenderer.color = Color.red;
         yield return new WaitForSecondsRealtime(0.1f);
-        spriteRenderer.color = Color.white;
+        _spriteRenderer.color = Color.white;
     }
 
     protected virtual IEnumerator Die()
